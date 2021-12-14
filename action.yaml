@@ -39,7 +39,7 @@ runs:
         echo "date_time=$date_time" >> $GITHUB_ENV
 
     - name: Sending telegram message
-      uses: davoudarsalani/telegram-action@master
+      uses: davoudarsalani/action--telegram@master
       with:
         token: ${{ inputs.TELEGRAM_TOKEN }}
         to: ${{ inputs.TELEGRAM_TO }}
