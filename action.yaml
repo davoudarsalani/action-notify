@@ -1,0 +1,61 @@
+name: Notify
+
+inputs:
+  send_telegram_message:
+    required: false
+  telegram_message:
+    required: false
+  telegram_photo:
+    required: false
+
+  send_sms:
+    required: false
+  sms_message:
+    required: false
+
+  ## secrets
+  TELEGRAM_TOKEN:
+    required: false
+  TELEGRAM_TO:
+    required: false
+
+  SMS_UPFT:
+    required: false
+  SMS_URL:
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setting timezone and installing jcal
+      shell: bash
+      run: |
+        wget https://raw.githubusercontent.com/davoudarsalani/scripts/master/gb-github
+        source gb-github
+        set_timezone
+        install_jcal
+
+        date_time="$(jdate '+%Y-%m-%d %H:%M:%S %A')" || date_time="$(date '+%Y-%m-%d %H:%M:%S %A')"
+        echo "date_time=$date_time" >> $GITHUB_ENV
+
+    - name: Sending telegram message
+      uses: davoudarsalani/telegram-action@master
+      with:
+        token: ${{ inputs.TELEGRAM_TOKEN }}
+        to: ${{ inputs.TELEGRAM_TO }}
+        message: |
+          ${{ env.date_time }}
+
+          ${{ inputs.telegram_message }}
+        photo:
+          ${{ inputs.telegram_photo  }}
+
+    - name: Sending SMS
+      if: ${{ inputs.send_sms == true }}
+      shell: bash
+      env:
+        SMS_UPFT: ${{ inputs.SMS_UPFT }}
+        message: ${{ env.date_time }}%0D%0A${{ inputs.sms_message }}
+        SMS_URL: ${{ inputs.SMS_URL }}
+      run: |
+        wget --post-data "${SMS_UPFT}&Text=${message}" "$SMS_URL"
