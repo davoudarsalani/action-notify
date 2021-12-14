@@ -1,4 +1,4 @@
-# Notify by sending an SMS or a Telegram message
+# Notify by sending a Telegram message or an SMS
 
 ```yml
 name: Notify
@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Notifying
-        uses: davoudarsalani/notify@master
+        uses: davoudarsalani/action-notify@master
         with:
           send_telegram_message: true
           telegram_message: |
