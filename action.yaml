@@ -30,8 +30,8 @@ runs:
     - name: Setting timezone and installing jcal
       shell: bash
       run: |
-        wget https://raw.githubusercontent.com/davoudarsalani/scripts/master/gb-github
-        source gb-github
+        wget https://raw.githubusercontent.com/davoudarsalani/scripts/master/gb
+        source gb
         set_timezone
         install_jcal
 
