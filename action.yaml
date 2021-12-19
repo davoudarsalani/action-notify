@@ -3,6 +3,12 @@ name: Notify
 inputs:
   telegram_message:
     required: false
+    default: |
+      ${{ github.event_name }}
+      ${{ github.repository_owner }}
+      ${{ github.repository }}
+      Commit mmmmessage: ${{ github.event.commits[0].message }}
+      https://github.com/${{ github.repository }}/commit/${{ github.sha }}
   telegram_photo:
     required: false
 
