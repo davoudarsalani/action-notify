@@ -1,16 +1,9 @@
 name: Notify
 
 inputs:
-  send_telegram_message:
-    required: false
   telegram_message:
     required: false
   telegram_photo:
-    required: false
-
-  send_sms:
-    required: false
-  sms_message:
     required: false
 
   ## secrets
@@ -19,18 +12,13 @@ inputs:
   TELEGRAM_TO:
     required: false
 
-  SMS_UPFT:
-    required: false
-  SMS_URL:
-    required: false
-
 runs:
   using: "composite"
   steps:
     - name: Setting timezone and installing jcal
       shell: bash
       run: |
-        wget https://raw.githubusercontent.com/${{ github.repository_owner }}/scripts/master/gb
+        wget -q https://raw.githubusercontent.com/${{ github.repository_owner }}/scripts/master/gb
         source gb
         set_timezone
         install_jcal
@@ -49,13 +37,3 @@ runs:
           ${{ inputs.telegram_message }}
         photo:
           ${{ inputs.telegram_photo  }}
-
-    - name: Sending SMS
-      if: ${{ inputs.send_sms == true }}
-      shell: bash
-      env:
-        SMS_UPFT: ${{ inputs.SMS_UPFT }}
-        message: ${{ env.date_time }}%0D%0A${{ inputs.sms_message }}
-        SMS_URL: ${{ inputs.SMS_URL }}
-      run: |
-        wget --post-data "${SMS_UPFT}&Text=${message}" "$SMS_URL"

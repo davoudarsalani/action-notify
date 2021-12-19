@@ -1,4 +1,4 @@
-# Notify by sending a Telegram message or an SMS
+# Notify by sending a Telegram message with Jalali date/time prepended
 
 ```yml
 - name: Notifying
