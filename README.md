@@ -4,7 +4,6 @@
 - name: Notifying
   uses: davoudarsalani/action-notify@master
   with:
-    send_telegram_message: true
     telegram_message: |
       Event: ${{ github.event_name }}
       Repo: ${{ github.repository }}
