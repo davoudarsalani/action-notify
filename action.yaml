@@ -14,9 +14,9 @@ inputs:
 
   ## secrets
   TELEGRAM_TOKEN:
-    required: false
+    required: true
   TELEGRAM_TO:
-    required: false
+    required: true
 
 runs:
   using: "composite"
