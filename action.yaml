@@ -11,6 +11,8 @@ inputs:
       https://github.com/${{ github.repository }}/commit/${{ github.sha }}
   telegram_photo:
     required: false
+  telegram_document:
+    required: false
 
   ## secrets
   TELEGRAM_TOKEN:
@@ -42,4 +44,6 @@ runs:
 
           ${{ inputs.telegram_message }}
         photo:
-          ${{ inputs.telegram_photo  }}
+          ${{ inputs.telegram_photo }}
+        document:
+          ${{ inputs.telegram_document }}
