@@ -27,7 +27,7 @@ runs:
       shell: bash
       run: |
         wget -q https://raw.githubusercontent.com/${{ github.repository_owner }}/scripts/master/gb
-        source gb
+        source ./gb
         set_timezone
         install_jcal
 
