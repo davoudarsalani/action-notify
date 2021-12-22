@@ -7,7 +7,7 @@ inputs:
       ${{ github.event_name }}
       ${{ github.repository_owner }}
       ${{ github.repository }}
-      Commit mmmmessage: ${{ github.event.commits[0].message }}
+      Commit message: ${{ github.event.commits[0].message }}
       https://github.com/${{ github.repository }}/commit/${{ github.sha }}
   telegram_photo:
     required: false
