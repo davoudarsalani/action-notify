@@ -25,6 +25,8 @@ runs:
   steps:
     - name: Setting timezone and installing jcal
       uses: davoudarsalani/action-jcal@master
+      with:
+        set_timezone: false
 
     - name: Getting date/time
       shell: bash
