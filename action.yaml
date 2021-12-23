@@ -21,28 +21,16 @@ inputs:
     required: true
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Setting timezone and installing jcal
       uses: davoudarsalani/action-jcal@master
-      with:
-        set_timezone: false
 
     - name: Getting date/time
       shell: bash
       run: |
         date_time="$(jdate '+%Y-%m-%d %H:%M:%S %A')" || date_time="$(date '+%Y-%m-%d %H:%M:%S %A')"
         echo "date_time=$date_time" >> $GITHUB_ENV
-    # - name: Setting timezone and installing jcal
-    #   shell: bash
-    #   run: |
-    #     wget -q https://raw.githubusercontent.com/${{ github.repository_owner }}/scripts/master/gb
-    #     source ./gb
-    #     set_timezone
-    #     install_jcal
-
-    #     date_time="$(jdate '+%Y-%m-%d %H:%M:%S %A')" || date_time="$(date '+%Y-%m-%d %H:%M:%S %A')"
-    #     echo "date_time=$date_time" >> $GITHUB_ENV
 
     - name: Sending telegram message
       uses: davoudarsalani/action--telegram@master
