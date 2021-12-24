@@ -14,7 +14,7 @@ inputs:
   telegram_document:
     required: false
 
-  ## secrets
+secrets:
   TELEGRAM_TOKEN:
     required: true
   TELEGRAM_TO:
@@ -35,8 +35,8 @@ runs:
     - name: Sending telegram message
       uses: davoudarsalani/action--telegram@master
       with:
-        token: ${{ inputs.TELEGRAM_TOKEN }}
-        to: ${{ inputs.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        to: ${{ secrets.TELEGRAM_TO }}
         message: |
           ${{ env.date_time }}
 
