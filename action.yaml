@@ -13,7 +13,6 @@ inputs:
     required: false
   telegram_document:
     required: false
-
 secrets:
   TELEGRAM_TOKEN:
     required: true
