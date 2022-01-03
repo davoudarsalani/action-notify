@@ -34,7 +34,7 @@ runs:
     - name: Getting date/time
       shell: bash
       run: |
-        case '${{ env.jcal_source }}' in
+        case ${{ env.jcal_source }} in
           docker )
             date_time="$(docker run --rm davoudarsalani/jcal \
               python3 -c "import jdatetime; print(jdatetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %A'))")"
