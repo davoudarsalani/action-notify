@@ -33,7 +33,7 @@ runs:
       shell: bash
       run: |
         if [ '${{ env.jcal_source }}' == 'docker' ]; then
-          date_time="$(docker run --rm davoudarsalani/jcal:jdatetime-alpine-3.15.0 \
+          date_time="$(docker run --rm davoudarsalani/jcal \
             python3 -c "import jdatetime; print(jdatetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %A'))")"
         else
           date_time="$(jdate '+%Y-%m-%d %H:%M:%S %A')" || date_time="$(date '+%Y-%m-%d %H:%M:%S %A')"
