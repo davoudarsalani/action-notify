@@ -20,6 +20,7 @@ inputs:
   TELEGRAM_TO:
     required: true
 
+  ## I couldn't set it as env variable so have to use set it as input for the moment
   jcal_source:
     required: false
     default: 'jdatetime'
@@ -39,6 +40,7 @@ runs:
           docker )
             date_time="$(docker run --rm davoudarsalani/jcal \
               python3 -c "import jdatetime; print(jdatetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %A'))")"
+          ;;
           jdatetime )
             date_time="$(python -c "import jdatetime; print(jdatetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %A %A'))")"
           ;;
