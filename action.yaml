@@ -20,7 +20,8 @@ inputs:
   TELEGRAM_TO:
     required: true
 
-  ## I couldn't set it as env variable so let's set it as input for the moment
+  ## I couldn't set jcal_source as env variable
+  ## so let's set it as input for the moment
   jcal_source:
     required: false
     default: 'docker'
@@ -28,7 +29,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Setting timezone and installing jcal
+    - name: Installing jcal
       uses: davoudarsalani/action-jcal@master
 
     - name: Getting date/time
