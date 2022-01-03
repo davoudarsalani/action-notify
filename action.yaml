@@ -21,7 +21,7 @@ inputs:
     required: true
 
 env:
-  jcal_source: 'docker'
+  jcal_source: 'jdatetime'
 
 runs:
   using: 'composite'
@@ -32,12 +32,17 @@ runs:
     - name: Getting date/time
       shell: bash
       run: |
-        if [ '${{ env.jcal_source }}' == 'docker' ]; then
-          date_time="$(docker run --rm davoudarsalani/jcal \
-            python3 -c "import jdatetime; print(jdatetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %A'))")"
-        else
-          date_time="$(jdate '+%Y-%m-%d %H:%M:%S %A')" || date_time="$(date '+%Y-%m-%d %H:%M:%S %A')"
-        fi
+        case '${{ env.jcal_source }}' in
+          docker )
+            date_time="$(docker run --rm davoudarsalani/jcal \
+              python3 -c "import jdatetime; print(jdatetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %A'))")"
+          jdatetime )
+            date_time="$(python -c "import jdatetime; print(jdatetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %A %A'))")"
+          ;;
+          * )
+            date_time="$(jdate '+%Y-%m-%d %H:%M:%S %A')"
+          ;;
+        esac
         echo "date_time=$date_time" >> $GITHUB_ENV
 
     - name: Sending telegram message
