@@ -20,8 +20,9 @@ inputs:
   TELEGRAM_TO:
     required: true
 
-env:
-  jcal_source: 'jdatetime'
+  jcal_source:
+    required: false
+    default: 'jdatetime'
 
 runs:
   using: 'composite'
@@ -34,7 +35,7 @@ runs:
     - name: Getting date/time
       shell: bash
       run: |
-        case ${{ env.jcal_source }} in
+        case ${{ inputs.jcal_source }} in
           docker )
             date_time="$(docker run --rm davoudarsalani/jcal \
               python3 -c "import jdatetime; print(jdatetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %A'))")"
