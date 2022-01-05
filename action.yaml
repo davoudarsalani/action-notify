@@ -37,8 +37,7 @@ runs:
       run: |
         case '${{ inputs.jcal_source }}' in
           docker )
-            date_time="$(docker run --rm davoudarsalani/jcal \
-              python -c "import jdatetime; print(jdatetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %A'))")"
+            date_time="$(jdate '+%Y-%m-%d %H:%M:%S %A')"
           ;;
           jdatetime )
             date_time="$(python -c "import jdatetime; print(jdatetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %A'))")"
