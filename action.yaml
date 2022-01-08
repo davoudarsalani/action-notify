@@ -1,12 +1,6 @@
 name: Notify
 
 inputs:
-  ## secrets
-  TELEGRAM_TOKEN:
-    required: true
-  TELEGRAM_TO:
-    required: true
-
   telegram_message:
     required: false
     default: |
@@ -24,6 +18,12 @@ inputs:
   jcal_source:
     required: false
     default: 'docker'
+
+  ## secrets
+  TELEGRAM_TOKEN:
+    required: true
+  TELEGRAM_TO:
+    required: true
 
 runs:
   using: 'composite'
