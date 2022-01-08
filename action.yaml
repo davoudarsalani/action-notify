@@ -1,6 +1,12 @@
 name: Notify
 
 inputs:
+  ## secrets
+  TELEGRAM_TOKEN:
+    required: true
+  TELEGRAM_TO:
+    required: true
+
   telegram_message:
     required: false
     default: |
@@ -14,14 +20,7 @@ inputs:
   telegram_document:
     required: false
 
-  ## secrets
-  TELEGRAM_TOKEN:
-    required: true
-  TELEGRAM_TO:
-    required: true
-
-  ## I couldn't set jcal_source as env variable
-  ## so let's set it as input for the moment
+  ## I couldn't set jcal_source as env variable so let's set it as input for the moment
   jcal_source:
     required: false
     default: 'docker'
@@ -31,33 +30,29 @@ runs:
   steps:
     - name: Installing jcal
       uses: davoudarsalani/action-jcal@master
+      with:
+        source: '${{ inputs.jcal_source }}'
 
     - name: Getting date/time
       shell: bash
       run: |
         case '${{ inputs.jcal_source }}' in
-          docker )
-             date_time="$(docker run --rm davoudarsalani/jcal jdate '+%Y-%m-%d %H:%M:%S %A')"
-          ;;
-          jdatetime )
-            date_time="$(python -c "import jdatetime; print(jdatetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %A'))")"
-          ;;
-          * )
-            date_time="$(jdate '+%Y-%m-%d %H:%M:%S %A')"
-          ;;
+          docker )    date_time="$(docker run --rm -t davoudarsalani/jcal jdate '+%Y-%m-%d %H:%M:%S %A')" ;;
+          jdatetime ) date_time="$(python -c "import jdatetime; print(jdatetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %A'))")" ;;
+          * )         date_time="$(jdate '+%Y-%m-%d %H:%M:%S %A')" ;;
         esac
         echo "date_time=$date_time" >> $GITHUB_ENV
 
     - name: Sending telegram message
-      uses: davoudarsalani/action--telegram@master
-      with:
-        token: ${{ inputs.TELEGRAM_TOKEN }}
-        to: ${{ inputs.TELEGRAM_TO }}
-        message: |
-          ${{ env.date_time }}
-
-          ${{ inputs.telegram_message }}
-        photo:
-          ${{ inputs.telegram_photo }}
-        document:
-          ${{ inputs.telegram_document }}
+      shell: bash
+      run: |
+        wget -q 'https://raw.githubusercontent.com/davoudarsalani/scripts/master/telegram'
+        chmod +x ./telegram
+        ./telegram \
+          -t '${{ inputs.TELEGRAM_TOKEN }}' \
+          -c '${{ inputs.TELEGRAM_TO }}' \
+          -M \
+          -T '${{ env.date_time }}' \
+          -f '${{ inputs.telegram_document }}' \
+          -i '${{ inputs.telegram_photo }}' \
+          '${{ inputs.telegram_message }}'
