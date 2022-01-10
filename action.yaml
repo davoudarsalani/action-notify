@@ -4,11 +4,11 @@ inputs:
   telegram_message:
     required: false
     default: |
-      '${{ github.event_name }}
+      ${{ github.event_name }}
       ${{ github.repository_owner }}
       ${{ github.repository }}
       Commit message: ${{ github.event.commits[0].message }}
-      https://github.com/${{ github.repository }}/commit/${{ github.sha }}'
+      https://github.com/${{ github.repository }}/commit/${{ github.sha }}
   telegram_photo:
     required: false
   telegram_document:
@@ -50,7 +50,6 @@ runs:
         ./telegram \
           -t '${{ inputs.TELEGRAM_TOKEN }}' \
           -c '${{ inputs.TELEGRAM_TO }}' \
-          -M \
           -T '${{ env.date_time }}' \
           -f '${{ inputs.telegram_document }}' \
           -i '${{ inputs.telegram_photo }}' \
