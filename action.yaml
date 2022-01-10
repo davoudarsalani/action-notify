@@ -8,7 +8,7 @@ inputs:
       ${{ github.repository_owner }}
       ${{ github.repository }}
       Commit message: ${{ github.event.commits[0].message }}
-      https://github.com/${{ github.repository }}/commit/${{ github.sha }}
+      [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
   telegram_photo:
     required: false
   telegram_document:
@@ -47,10 +47,17 @@ runs:
       run: |
         wget -q 'https://raw.githubusercontent.com/davoudarsalani/scripts/master/telegram'
         chmod +x ./telegram
+
+        ## telegram is told, by -M flag, to process markdown messages
+        ## so let's make sure special characters like *, @ and _ are escaped
+        message_text='${{ inputs.telegram_message }}'
+        message_text="$(printf '%s\n' "$message_text" | sed 's|\([_@\*]\)|\\\1|g' )"
+
         ./telegram \
           -t '${{ inputs.TELEGRAM_TOKEN }}' \
           -c '${{ inputs.TELEGRAM_TO }}' \
           -T '${{ env.date_time }}' \
           -f '${{ inputs.telegram_document }}' \
           -i '${{ inputs.telegram_photo }}' \
-          '${{ inputs.telegram_message }}'
+          -M \
+          "$message_text"
