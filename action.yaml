@@ -54,4 +54,5 @@ runs:
           -T '${{ env.date_time }}' \
           -f '${{ inputs.telegram_document }}' \
           -i '${{ inputs.telegram_photo }}' \
+          -M \
           '${{ inputs.telegram_message }}'
