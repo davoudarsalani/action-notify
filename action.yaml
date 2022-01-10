@@ -17,7 +17,7 @@ inputs:
   ## I couldn't set jdate_source as env variable so let's set it as input for the moment
   jdate_source:
     required: false
-    default: 'docker'
+    default: 'docker-jdate'
 
   ## secrets
   TELEGRAM_TOKEN:
@@ -28,18 +28,18 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Installing jdate
+    - name: Pulling/cloning/downloading jdate
       uses: davoudarsalani/action-jdate@master
-      with:
-        source: '${{ inputs.jdate_source }}'
+      # with:
+      #   source: '${{ inputs.jdate_source }}'
 
     - name: Getting date/time
       shell: bash
       run: |
         case '${{ inputs.jdate_source }}' in
-          docker )    date_time="$(docker run --rm -t davoudarsalani/jdate jdate '+%Y-%m-%d %H:%M:%S %A')" ;;
-          jdatetime ) date_time="$(python -c "import jdatetime; print(jdatetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %A'))")" ;;
-          * )         date_time="$(jdate '+%Y-%m-%d %H:%M:%S %A')" ;;
+          docker-jdatetime ) date_time="$(docker run --rm -t davoudarsalani/jdatetime python -c "import jdatetime; print(jdatetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %A'))")" ;;
+          docker-jdate ) date_time="$(docker run --rm -t davoudarsalani/jdate jdate '+%Y-%m-%d %H:%M:%S %A')" ;;
+          * ) date_time="$(jdate '+%Y-%m-%d %H:%M:%S %A')" ;;
         esac
         echo "date_time=$date_time" >> $GITHUB_ENV
 
