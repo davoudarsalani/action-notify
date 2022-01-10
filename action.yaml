@@ -8,7 +8,7 @@ inputs:
       ${{ github.repository_owner }}
       ${{ github.repository }}
       Commit message: ${{ github.event.commits[0].message }}
-      [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+      https://github.com/${{ github.repository }}/commit/${{ github.sha }}
   telegram_photo:
     required: false
   telegram_document:
@@ -54,5 +54,4 @@ runs:
           -T '${{ env.date_time }}' \
           -f '${{ inputs.telegram_document }}' \
           -i '${{ inputs.telegram_photo }}' \
-          -M \
           '${{ inputs.telegram_message }}'
