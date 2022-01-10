@@ -51,7 +51,6 @@ runs:
         ./telegram \
           -t '${{ inputs.TELEGRAM_TOKEN }}' \
           -c '${{ inputs.TELEGRAM_TO }}' \
-          -M \
           -T '${{ env.date_time }}' \
           '${{ inputs.telegram_message }}'
           # -f '${{ inputs.telegram_document }}' \
