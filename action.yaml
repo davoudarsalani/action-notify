@@ -49,10 +49,10 @@ runs:
         wget -q 'https://raw.githubusercontent.com/davoudarsalani/scripts/master/telegram'
         chmod +x ./telegram
         ./telegram \
-          -t '${{ inputs.TELEGRAM_TOKEN }}' \
-          -c '${{ inputs.TELEGRAM_TO }}' \
+          -t ${{ inputs.TELEGRAM_TOKEN }} \
+          -c ${{ inputs.TELEGRAM_TO }} \
           -M \
-          -T '${{ env.date_time }}' \
-          -f '${{ inputs.telegram_document }}' \
-          -i '${{ inputs.telegram_photo }}' \
-          '${{ inputs.telegram_message }}'
+          -T ${{ env.date_time }} \
+          -f ${{ inputs.telegram_document }} \
+          -i ${{ inputs.telegram_photo }} \
+          ${{ inputs.telegram_message }}
