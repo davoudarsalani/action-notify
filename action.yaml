@@ -14,8 +14,8 @@ inputs:
   telegram_document:
     required: false
 
-  ## I couldn't set jcal_source as env variable so let's set it as input for the moment
-  jcal_source:
+  ## I couldn't set jdate_source as env variable so let's set it as input for the moment
+  jdate_source:
     required: false
     default: 'docker'
 
@@ -28,16 +28,16 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Installing jcal
-      uses: davoudarsalani/action-jcal@master
+    - name: Installing jdate
+      uses: davoudarsalani/action-jdate@master
       with:
-        source: '${{ inputs.jcal_source }}'
+        source: '${{ inputs.jdate_source }}'
 
     - name: Getting date/time
       shell: bash
       run: |
-        case '${{ inputs.jcal_source }}' in
-          docker )    date_time="$(docker run --rm -t davoudarsalani/jcal jdate '+%Y-%m-%d %H:%M:%S %A')" ;;
+        case '${{ inputs.jdate_source }}' in
+          docker )    date_time="$(docker run --rm -t davoudarsalani/jdate jdate '+%Y-%m-%d %H:%M:%S %A')" ;;
           jdatetime ) date_time="$(python -c "import jdatetime; print(jdatetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %A'))")" ;;
           * )         date_time="$(jdate '+%Y-%m-%d %H:%M:%S %A')" ;;
         esac
