@@ -14,11 +14,6 @@ inputs:
   telegram_document:
     required: false
 
-  ## I couldn't set jdate_source as env variable so let's set it as input for the moment
-  jdate_source:
-    required: false
-    default: 'docker-jdate'
-
   ## secrets
   TELEGRAM_TOKEN:
     required: true
@@ -28,15 +23,19 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Setting jdate_source
+      shell: bash
+      run: echo "jdate_source=docker-jdate" >> $GITHUB_ENV
+
     - name: Pulling/cloning/downloading jdate
       uses: davoudarsalani/action-jdate@master
-      # with:
-      #   source: '${{ inputs.jdate_source }}'
+      with:
+        source: '${{ env.jdate_source }}'
 
     - name: Getting date/time
       shell: bash
       run: |
-        case '${{ inputs.jdate_source }}' in
+        case '${{ env.jdate_source }}' in
           docker-jdatetime ) date_time="$(docker run --rm -t davoudarsalani/jdatetime python -c "import jdatetime; print(jdatetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %A'))")" ;;
           docker-jdate ) date_time="$(docker run --rm -t davoudarsalani/jdate jdate '+%Y-%m-%d %H:%M:%S %A')" ;;
           * ) date_time="$(jdate '+%Y-%m-%d %H:%M:%S %A')" ;;
