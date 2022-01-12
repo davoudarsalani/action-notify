@@ -36,6 +36,7 @@ runs:
       shell: bash
       run: |
         case '${{ env.jdate_source }}' in
+          docker-khayyam ) date_time="$(docker run --rm -t davoudarsalani/khayyam python -c "import khayyam; print(khayyam.JalaliDatetime.now().strftime('%Y-%m-%d %H:%M:%S %A'))")" ;;
           docker-jdatetime ) date_time="$(docker run --rm -t davoudarsalani/jdatetime python -c "import jdatetime; print(jdatetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %A'))")" ;;
           docker-jdate ) date_time="$(docker run --rm -t davoudarsalani/jdate jdate '+%Y-%m-%d %H:%M:%S %A')" ;;
           * ) date_time="$(jdate '+%Y-%m-%d %H:%M:%S %A')" ;;
