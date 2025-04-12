@@ -47,7 +47,7 @@ runs:
     - name: Sending telegram message
       shell: bash
       run: |
-        wget -q 'https://raw.githubusercontent.com/davoudarsalani/scripts/master/telegram'
+        wget -q 'https://raw.githubusercontent.com/davoudarsalani/scripts/master/telegram.sh'
         chmod +x ./telegram
 
         ## telegram is told, by -M flag, to process markdown messages
