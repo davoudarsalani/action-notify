@@ -48,14 +48,14 @@ runs:
       shell: bash
       run: |
         wget -q 'https://raw.githubusercontent.com/davoudarsalani/scripts/master/telegram.sh'
-        chmod +x ./telegram
+        chmod +x ./telegram.sh
 
         ## telegram is told, by -M flag, to process markdown messages
         ## so let's make sure special characters like *, @ and _ are escaped
         message_text='${{ inputs.telegram_message }}'
         message_text="$(printf '%s\n' "$message_text" | sed 's|\([_@\*]\)|\\\1|g' )"
 
-        ./telegram \
+        ./telegram.sh \
           -t '${{ inputs.TELEGRAM_TOKEN }}' \
           -c '${{ inputs.TELEGRAM_TO }}' \
           -T '${{ env.date_time }}' \
